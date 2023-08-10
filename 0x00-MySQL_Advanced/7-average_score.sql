@@ -4,9 +4,8 @@ DROP PROCEDURE IF EXISTS ComputeAverageWeightedScoreForUsers;
 DELIMITER $$
 CREATE PROCEDURE ComputeAverageWeightedScoreForUsers(user_id INT)
 BEGIN
-    DECLARE project_count INT DEFAULT 0;
     DECLARE total_score INT DEFAULT 0;
-    
+    DECLARE project_count INT DEFAULT 0;
 
     SELECT SUM(score)
         INTO total_score
