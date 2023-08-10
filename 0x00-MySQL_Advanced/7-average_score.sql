@@ -1,19 +1,23 @@
--- SQL script that creates a stored procedure ComputeAverageScoreForUser
---that computes and store the average score for a student.
-DROP PROCEDURE IF EXISTS ComputeAverageScoreForUser;
+--SQL script that creates a stored procedure ComputeAverageWeightedScoreForUsers
+DROP PROCEDURE IF EXISTS ComputeAverageWeightedScoreForUsers;
 DELIMITER $$
-CREATE PROCEDURE ComputeAverageScoreForUser(IN user_id INT)
+CREATE PROCEDURE ComputeAverageWeightedScoreForUsers(user_id INT)
 BEGIN
+    DECLARE project_count INT DEFAULT 0;
     DECLARE total_score INT DEFAULT 0;
-    DECLARE projects_count INT DEFAULT 0;
+    
 
-    SELECT SUM(score), COUNT(*) INTO total_score, projects_count
-    FROM corrections
-    WHERE user_id = user_id;
+    SELECT SUM(score)
+        INTO total_score
+        FROM corrections
+        WHERE corrections.user_id = user_id;
+    SELECT COUNT(*) 
+        INTO project_count
+        FROM corrections
+        WHERE corrections.user_id = user_id;
 
-    IF total_projects > 0 THEN
-        SET avg_score = total_score / total_projects;
-        UPDATE users SET average_score = avg_score WHERE id = user_id;
-    END IF;
+    UPDATE users
+        SET average_weighted_score = total_score / project_count
+        WHERE users.id = user_id;
 END$$
 DELIMITER ;
