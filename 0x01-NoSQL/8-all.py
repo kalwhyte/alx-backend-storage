@@ -7,5 +7,6 @@ from pymongo import MongoClient
 def list_all(mongo_collection):
     '''Return the list
     '''
-    doc_list = list(doc)
+    docs = mongo_collection.find({})
+    doc_list = list(docs)
     return doc_list
