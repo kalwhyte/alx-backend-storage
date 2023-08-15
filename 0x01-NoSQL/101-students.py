@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-''' 101-student.py '''
+'''Task 14's module.
+'''
 
 
-from pymongo import MongoCLient
-
-
-def top_students(mong_collection):
-    ''' Print all students in collection sorted by average score
+def top_students(mongo_collection):
+    '''This prints all students in a collection
+       sorted by average score.
     '''
     students = mongo_collection.aggregate(
         [
