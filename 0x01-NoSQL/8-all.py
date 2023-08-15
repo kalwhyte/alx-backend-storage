@@ -1,6 +1,8 @@
 #!/urs/bin/env python3
 '''lists all documents in a collection
 '''
+
+
 from pymongo import MongoClient
 
 
