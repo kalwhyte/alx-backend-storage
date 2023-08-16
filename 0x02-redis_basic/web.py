@@ -22,6 +22,7 @@ def track_url_access_count(url):
         return wrapper
     return decorator
 
+
 @track_url_access_count("http://slowly.robertomurray.co.uk")
 def get_page(url: str) -> str:
     ''' get HTML content of a URL and cache it for 10 seconds.
@@ -38,6 +39,7 @@ def get_page(url: str) -> str:
         return content
 
     return ""
+
 
 if __name__ == "__main__":
     url = "http://slowwly.robertomurray.co.uk"
