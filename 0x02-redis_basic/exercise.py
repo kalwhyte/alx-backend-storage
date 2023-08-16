@@ -5,11 +5,6 @@
 import redis
 import uuid
 from typing import Union, Optional, Callable
-
-
-''' define a count_calls decorator '''
-
-
 def count_calls(method: Callable) -> Callable:
     ''' decorator function '''
     @wraps(method)
@@ -53,6 +48,16 @@ class Cache:
 
 if __name__ == '__main__':
     cache = Cache()
+
+    cache.store(b"first")
+    print(cache.get(cache.store.__qualname__))
+
+    cache.store(b"first")
+    print(cache.get(cache.store.__qualname__))
+
+    cache.store(b"second")
+    cache.store(b"third")
+    print(cache.get(cache.store.__qualname__))
 
     data_to_store = b"hello"
     stored_key = cache.store(data_to_store)
