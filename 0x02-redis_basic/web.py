@@ -38,6 +38,7 @@ def get_page(url: str) -> str:
         redis_client.setex(url, 10, content)
         return content
 
+
     return ""
 
 
@@ -47,6 +48,7 @@ if __name__ == "__main__":
         content = get_page(url)
         print(content[:100])
         time.sleep(1)
+
 
     access_count = redis_client.get(f"count:{url}")
     access_count = int(access_count) if access_count is not None else 0
