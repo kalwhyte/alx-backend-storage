@@ -9,6 +9,21 @@ import uuid
 from typing import Union, Optional, Callable
 
 
+def call_history(method: Callable) -> Callable:
+    @wrap(method)
+    def wrapper(self, *args, **kwargs):
+        inputs_key = "{}:inputs".format(method.__qualname__)
+        outputs_key = "{}:outputs".format(method.__qualname__)
+
+        self._redisrpush(inputs_key, str(args))
+
+        output = method(self, *args, **kwargs)
+        self._redis.rpush(outputs_keys, output)
+
+        return output
+    return wrapper
+
+
 def count_calls(method: Callable) -> Callable:
     ''' decorator function '''
     @wraps(method)
@@ -51,24 +66,6 @@ class Cache:
 
 
 if __name__ == '__main__':
-    cache = Cache()
-
-    cache.store(b"first")
-    print(cache.get(cache.store.__qualname__))
-
-    cache.store(b"first")
-    print(cache.get(cache.store.__qualname__))
-
-    cache.store(b"second")
-    cache.store(b"third")
-    print(cache.get(cache.store.__qualname__))
-
-    data_to_store = b"hello"
-    stored_key = cache.store(data_to_store)
-
-    local_redis = redis.Redis()
-    print(local_redis.get(stored_key))
-
     cache = Cache()
 
     TEST_CASES = {
