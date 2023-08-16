@@ -7,6 +7,20 @@ import uuid
 from typing import Union, Optional, Callable
 
 
+''' define a count_calls decorator '''
+
+
+def count_calls(method: Callable) -> Callable:
+    ''' decorator function '''
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        key = method.__qualname__
+        ''' wrapper function '''
+        self._redis.incr(key)
+        return method(self, *args, **kwargs)
+    return wrapper
+
+
 class Cache:
     ''' Cache class '''
 
